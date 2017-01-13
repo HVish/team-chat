@@ -1,0 +1,19 @@
+{
+  "name": "anonym",
+  "version": "1.0.0",
+  "description": "anonimous chat application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Vishnu Singh",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.14.2",
+    "socket.io": "^1.7.2"
+  }
+}
