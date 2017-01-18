@@ -48,21 +48,30 @@ class ChatBox {
      * [addMsg description]
      * @param {string}  msg         text message
      * @param {string}  sender      message sender name
+     * @param {string}  time        message sending time
      * @param {enum}    position    {"left", "right"}
+     * @param {enum}    forceNew    {true, false}
      */
-    addMsg(msg, sender, position) {
+    addMsg(msg, sender, time, position, forceNew) {
         let body = this.chatBox.querySelector(".pop-out--body"),
             ul = body.lastElementChild;
 
         position = (position != "left") ? "right" : position;
-        if (ul && ul.classList.contains(position)) {
-            let li = document.createElement('li');
-            li.innerHTML = msg;
+        forceNew = (forceNew != true) ? false : forceNew;
+
+        if (!forceNew && ul && ul.classList.contains(position)) {
+            let li = document.createElement('li'),
+                timeSpan = ul.querySelector('span.msg-time');
+            if (timeSpan) {
+                timeSpan.parentNode.removeChild(timeSpan);
+            }
+            li.innerHTML = msg + '<span class="msg-time">' + time + '</span>';
             ul.appendChild(li);
         } else {
             let newUL = document.createElement('ul');
             newUL.className = position;
-            newUL.innerHTML = '<li><span class="msg-sender">' + sender + '</span>' + msg + '</li>';
+            newUL.innerHTML = '<li><span class="msg-sender">' + sender + '</span>' +
+                msg + '<span class="msg-time">' + time + '</span>' + '</li>';
             body.appendChild(newUL);
         }
         body.scrollTop = body.scrollHeight;

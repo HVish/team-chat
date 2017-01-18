@@ -79,7 +79,7 @@
 
 .pop-out--body>ul {
     clear: both;
-    margin: 15px 0px;
+    margin: 20px 0px;
     padding: 0;
     list-style: none;
     line-height: 20px;
@@ -135,13 +135,21 @@
 
 /* message time */
 
-span.message-meta {
-    display: none;
-    border-top: 1px solid #ccc;
+.pop-out--body>ul>li>span.msg-time {
+    position: absolute;
     font-size: 10px;
     line-height: 11px;
     padding: 2px;
     color: #009688;
+    bottom: -15px;
+}
+
+.pop-out--body>ul.left>li>span.msg-time {
+    left: 0px;
+}
+
+.pop-out--body>ul.right>li>span.msg-time {
+    right: 0px;
 }
 
 
