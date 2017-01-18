@@ -79,10 +79,11 @@
 
 .pop-out--body>ul {
     clear: both;
-    margin: 0 0 10px;
+    margin: 15px 0px;
     padding: 0;
     list-style: none;
     line-height: 20px;
+    position: relative;
 }
 
 
@@ -97,6 +98,26 @@
 
 .pop-out--body>ul.right {
     float: right;
+}
+
+
+/* message sender */
+
+.pop-out--body>ul>li>span.msg-sender {
+    position: absolute;
+    top: -20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 2px;
+    color: #009688;
+}
+
+.pop-out--body>ul.left>li>span.msg-sender {
+    left: 0px;
+}
+
+.pop-out--body>ul.right>li>span.msg-sender {
+    right: 0px;
 }
 
 
