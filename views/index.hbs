@@ -29,6 +29,11 @@
                 <label class="mdl-textfield__label" for="mobile">Mobile Number</label>
                 <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" pattern="-?[a-zA-Z0-9_]*?" id="username">
+                <label class="mdl-textfield__label" for="username">Username</label>
+                <span class="mdl-textfield__error">Invalid username!</span>
+            </div>
             <button class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="subscribe">Subscribe</button>
         </p>
         <div id="notify-snackbar" class="mdl-js-snackbar mdl-snackbar">

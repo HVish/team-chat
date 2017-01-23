@@ -2,12 +2,17 @@
 
 const express = require('express');
 const app = express();
-const hbs = require('express-handlebars');
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const io = require('socket.io')(3012);
 
-const port = process.env.port || 3000;
+const hbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+
+const config = {
+    locals: require('./config/locals.js'),
+    routes: require('./config/routes.js'),
+    policies: require('./config/policies.js')
+};
+
+const io = require('socket.io')(config.locals.socketPort);
 
 // setup view engine
 app.engine('.hbs', hbs({
@@ -26,54 +31,40 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// setup session
-app.use(session({
-    secret: 'cookie_secret_key',
-    resave: true,
-    saveUninitialized: true
-}));
+// register endpoints for api
+let registerEndpoints = (option) => {
+    for (let key in config.routes[option]) {
+        if (config.routes[option].hasOwnProperty(key)) {
+            let controllerName = config.routes[option][key]
+                .substr(0, config.routes[option][key].indexOf('.')),
 
-// check session on every request
-app.use((req, res, next) => {
-    if (req.session.mobile ||
-        req.path == '/' ||
-        req.path == '/signup') {
-        next();
-    } else {
-        res.status(403).json({
-            success: false,
-            message: "Unauthorized"
-        });
+                callback = config.routes[option][key]
+                .substr(config.routes[option][key].indexOf('.') + 1),
+
+                method = key.substr(0, key.indexOf(' ')).toLowerCase(),
+                route = key.substr(key.indexOf(' ') + 1);
+
+            try {
+                let controller = require('./app/' +
+                    option + '/' + controllerName + '.js');
+
+                app[method]('/' + option + route, controller[callback]);
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
-});
+}
+registerEndpoints('api');
+registerEndpoints('web');
+registerEndpoints('common');
 
-// home
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-// signup
-app.get('/signup', (req, res) => {
-    let mobile = req.query.mobile;
-    if (mobile && mobile.length == 10 && !isNaN(mobile)) {
-        req.session.mobile = mobile;
-        res.json({
-            success: true,
-            message: "Successfully singned up!"
-        });
-    } else {
-        res.json({
-            success: false,
-            message: "Invalid mobile."
-        });
-    }
-});
 
 // listen server requests on port
-app.listen(port, () => {
+app.listen(config.locals.webPort, () => {
     console.log("Server started!! Please visit:",
         '\x1b[36m',
-        "http://localhost:" + port,
+        "http://localhost:" + config.locals.webPort,
         '\x1b[0m');
 });
 

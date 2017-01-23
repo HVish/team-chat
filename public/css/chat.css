@@ -126,7 +126,7 @@
 .pop-out--body>ul>li {
     max-width: 180px;
     margin-bottom: 1px;
-    padding: 5px;
+    padding: 5px 12px;
     word-wrap: break-word;
     border: 1px solid #ccc;
     background: #fff;
