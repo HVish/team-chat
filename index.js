@@ -31,6 +31,24 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// policies
+let addPolicy = (endpoint, method) => {
+    if (config.policies.hasOwnProperty(method.toUpperCase() + ' ' + endpoint)) {
+        let policy = require('./app/policies/' +
+            config.policies[method.toUpperCase() + ' ' + endpoint] + '.js');
+        app[method](endpoint, policy.index);
+    }
+};
+
+if(config.policies.hasOwnProperty('*')) {
+    try {
+        let policy = require('./app/policies/' + config.policies['*'] + '.js');
+        app.use(policy.index);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 // register endpoints for api
 let registerEndpoints = (option) => {
     for (let key in config.routes[option]) {
@@ -48,6 +66,7 @@ let registerEndpoints = (option) => {
                 let controller = require('./app/' +
                     option + '/' + controllerName + '.js');
 
+                addPolicy('/' + option + route, method);
                 app[method]('/' + option + route, controller[callback]);
             } catch (e) {
                 console.error(e);
@@ -59,6 +78,9 @@ registerEndpoints('api');
 registerEndpoints('web');
 registerEndpoints('common');
 
+app.get('/', function(req, res) {
+    res.redirect('/web/');
+});
 
 // listen server requests on port
 app.listen(config.locals.webPort, () => {

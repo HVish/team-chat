@@ -1,6 +1,12 @@
 /*******************************************************************************
  * Routes.js
  *******************************************************************************
+ *
+ * The controllers are in the directory: 
+ * 1. /app/api/
+ * 2. /app/common/
+ * 3. /app/web/
+ *
  * There are three type of routing:
  * 1. For API
  * 2. For Website
