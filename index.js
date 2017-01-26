@@ -12,7 +12,15 @@ const config = {
     policies: require('./config/policies.js')
 };
 
-const socketIO = require('socket.io')(config.locals.socketPort);
+const server = app.listen(config.locals.port, () => {
+    console.log("Server started!! Please visit:",
+    '\x1b[36m',
+    "http://localhost:" + config.locals.port,
+    '\x1b[0m');
+});
+
+const socketIO = require('socket.io')(server);
+
 
 // setup view engine
 app.engine('.hbs', hbs({
@@ -82,16 +90,9 @@ app.get('/', function(req, res) {
     res.redirect('/web/');
 });
 
-// listen server requests on port
-app.listen(config.locals.webPort, () => {
-    console.log("Server started!! Please visit:",
-        '\x1b[36m',
-        "http://localhost:" + config.locals.webPort,
-        '\x1b[0m');
-});
-
 // socket connection handler
 socketIO.on('connection', (socket) => {
+    console.log('new user connected');
     socket.on('message', (data) => {
         console.log(data);
     });

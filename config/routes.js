@@ -2,7 +2,7 @@
  * Routes.js
  *******************************************************************************
  *
- * The controllers are in the directory: 
+ * The controllers are in the directory:
  * 1. /app/api/
  * 2. /app/common/
  * 3. /app/web/
@@ -29,8 +29,7 @@
 module.exports = {
     api: {
         // all api routes
-        "GET /": "Home.index",
-        "GET /socket/settings": "Home.socketPort"
+        "GET /": "Home.index"
     },
     web: {
         // all website routes

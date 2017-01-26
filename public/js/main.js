@@ -1,21 +1,13 @@
 $(document).ready(() => {
     var socket;
 
-    var socketInit = () => {
-        $.get('/api/socket/settings', (response) => {
-            if (response.result == "success") {
-                socket = io(location.hostname + ':' + response.data.port);
-            }
-        });
-    }
+    socket = io(location.origin);
 
     var subscribe = () => {
         socket.on('message', (data) => {
             console.log(data);
         });
     };
-
-    socketInit();
 
     $('#subscribe').click(() => {
         var mobile = $('#mobile').val(),
