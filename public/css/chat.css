@@ -28,6 +28,10 @@
 
 /* minimise chat box*/
 
+.pop-out.minimise {
+    width: 100px;
+}
+
 .pop-out.minimise>.pop-out--body,
 .pop-out.minimise>.pop-out--input {
     display: none;
@@ -41,6 +45,7 @@
     padding: 10px;
     color: #fff;
     background: #009688;
+    cursor: pointer;
 }
 
 
@@ -50,6 +55,7 @@
     display: block;
     overflow: hidden;
     max-width: 200px;
+    margin-right: 20px;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
@@ -61,7 +67,10 @@
     position: absolute;
     top: 7px;
     right: 7px;
-    cursor: pointer;
+}
+
+.pop-out--header>span.action:hover {
+    color: #ffadad;
 }
 
 
@@ -125,6 +134,7 @@
 
 .pop-out--body>ul>li {
     max-width: 180px;
+    min-width: 42px;
     margin-bottom: 1px;
     padding: 5px 12px;
     word-wrap: break-word;

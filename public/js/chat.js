@@ -3,6 +3,7 @@ class ChatBox {
         this.title = obj.title || "Title";
         this.close = (typeof obj.close != "undefined") ? obj.close : true;
         this.input = (typeof obj.input != "undefined") ? obj.input : true;
+        this.sender = obj.sender || "You";
 
         this.container = document.querySelector(".pop-out-container");
         if (!this.container) {
@@ -42,6 +43,29 @@ class ChatBox {
                 chatBox.className += " minimise";
             }
         });
+
+        // message input
+        if (this.input === true) {
+            let input = chatBox.querySelector(".pop-out--input");
+            let This = this;
+            input.addEventListener("keydown", function(event) {
+                if (event.which === 13 && event.shiftKey === false && input.innerHTML) {
+                    let time = new Date();
+                    This.addMsg({
+                        msg: input.innerHTML,
+                        sender: This.sender,
+                        time: time.toLocaleTimeString('en-US', {
+                            hour12: true,
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })
+                    });
+                    event.preventDefault();
+                    // clear text from message input
+                    input.innerHTML = "";
+                }
+            });
+        }
     }
 
     /**
@@ -59,6 +83,7 @@ class ChatBox {
 
         msgData.position = (msgData.position != "left") ? "right" : msgData.position;
         msgData.forceNew = (msgData.forceNew != true) ? false : msgData.forceNew;
+        msgData.msg = msgData.msg.replace(/[\n]/g, '<br>');
 
         if (!msgData.forceNew && ul &&
             ul.classList.contains(msgData.position)) {
@@ -67,15 +92,31 @@ class ChatBox {
             if (timeSpan) {
                 timeSpan.parentNode.removeChild(timeSpan);
             }
-            li.innerHTML = msgData.msg + '<span class="msg-time">' + msgData.time + '</span>';
+            li.innerHTML = msgData.msg + '<span class="msg-time">' +
+                msgData.time + '</span>';
             ul.appendChild(li);
         } else {
             let newUL = document.createElement('ul');
             newUL.className = msgData.position;
-            newUL.innerHTML = '<li><span class="msg-sender">' + msgData.sender + '</span>' +
-                msgData.msg + '<span class="msg-time">' + msgData.time + '</span>' + '</li>';
+            newUL.innerHTML = '<li><span class="msg-sender">' + msgData.sender +
+                '</span>' + msgData.msg + '<span class="msg-time">' +
+                msgData.time + '</span>' + '</li>';
             body.appendChild(newUL);
         }
         body.scrollTop = body.scrollHeight;
+    }
+
+    // minimise chat box
+    minimise() {
+        if(!this.chatBox.classList.contains('minimise')) {
+            this.chatBox.className += " minimise";
+        }
+    }
+
+    // maximise chat box
+    maximise() {
+        if (this.chatBox.classList.contains('minimise')) {
+            this.chatBox.className = this.chatBox.className.replace("minimise", "");
+        }
     }
 }

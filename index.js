@@ -12,7 +12,7 @@ const config = {
     policies: require('./config/policies.js')
 };
 
-const io = require('socket.io')(config.locals.socketPort);
+const socketIO = require('socket.io')(config.locals.socketPort);
 
 // setup view engine
 app.engine('.hbs', hbs({
@@ -91,7 +91,7 @@ app.listen(config.locals.webPort, () => {
 });
 
 // socket connection handler
-io.on('connection', (socket) => {
+socketIO.on('connection', (socket) => {
     socket.on('message', (data) => {
         console.log(data);
     });
