@@ -5,6 +5,7 @@ const app = express();
 
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 const config = {
     locals: require('./config/locals.js'),
@@ -14,13 +15,20 @@ const config = {
 
 const server = app.listen(config.locals.port, () => {
     console.log("Server started!! Please visit:",
-    '\x1b[36m',
-    "http://localhost:" + config.locals.port,
-    '\x1b[0m');
+        '\x1b[36m',
+        "http://localhost:" + config.locals.port,
+        '\x1b[0m');
 });
 
 const socketIO = require('socket.io')(server);
 
+const pool = mysql.createPool(config.locals.mysql);
+
+// exports
+module.exports = {
+    socketIO: socketIO,
+    pool: pool
+};
 
 // setup view engine
 app.engine('.hbs', hbs({
@@ -48,7 +56,7 @@ let addPolicy = (endpoint, method) => {
     }
 };
 
-if(config.policies.hasOwnProperty('*')) {
+if (config.policies.hasOwnProperty('*')) {
     try {
         let policy = require('./app/policies/' + config.policies['*'] + '.js');
         app.use(policy.index);
@@ -93,7 +101,7 @@ app.get('/', function(req, res) {
 // socket connection handler
 socketIO.on('connection', (socket) => {
     console.log('new user connected');
-    socket.on('message', (data) => {
-        console.log(data);
+    socket.on('disconnect', (data) => {
+        console.log('a user disconnected');
     });
 });

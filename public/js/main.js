@@ -1,19 +1,29 @@
 $(document).ready(() => {
     var socket;
 
-    socket = io(location.origin);
-
     var subscribe = () => {
-        socket.on('message', (data) => {
-            console.log(data);
-        });
+        if(socket) {
+            socket.close();
+        }
+        socket = io(location.origin);
     };
 
-    $('#subscribe').click(() => {
-        var mobile = $('#mobile').val(),
-            username = $('#username').val();
+    $('#login').click(() => {
+        var whiteSpaces = /^\s*$/,
+            mobile = $('#mobile').val(),
+            username = $('#username').val(),
+            password = $('#password').val();
 
-        if ($('.mdl-textfield.is-invalid').length) {
+        if (username.match(whiteSpaces) ||
+            mobile.match(whiteSpaces) ||
+            password.match(whiteSpaces)) {
+            $('#notify-snackbar')[0].MaterialSnackbar.showSnackbar({
+                message: "All fields are mondatory.",
+                timeout: 2000
+            });
+            return false;
+        } else if ($('.mdl-textfield.is-invalid').length ||
+            mobile.length != 10) {
             $('.mdl-textfield.is-invalid input').focus();
             $('#notify-snackbar')[0].MaterialSnackbar.showSnackbar({
                 message: "Invalid input",
@@ -21,23 +31,20 @@ $(document).ready(() => {
             });
             return false;
         }
-        /*$.get('/signup', {
+        $.get('/api/signup', {
             mobile: mobile,
-            username: username
-        }, (result) => {
-            if (result.success) {
-                $('#notify-snackbar')[0].MaterialSnackbar.showSnackbar({
-                    message: 'Successfully subscribed.',
-                    timeout: 2000
-                });
+            username: username,
+            password: password
+        }, (response) => {
+            if (response.success) {
                 subscribe();
             } else {
                 $('#mobile').focus();
-                $('#notify-snackbar')[0].MaterialSnackbar.showSnackbar({
-                    message: 'Unable to subscribe.',
-                    timeout: 2000
-                });
             }
-        });*/
+            $('#notify-snackbar')[0].MaterialSnackbar.showSnackbar({
+                message: response.data,
+                timeout: 2000
+            });
+        });
     });
 });

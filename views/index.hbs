@@ -22,20 +22,31 @@
     </header>
 
     <main>
-        <p>Welcome to chat messaging. The button below needs to be signup and substcribe.</p>
-        <p>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="mobile">
-                <label class="mdl-textfield__label" for="mobile">Mobile Number</label>
-                <span class="mdl-textfield__error">Input is not a number!</span>
+        <p>Welcome to chat messaging. Enter following details to start chatting.
+            <br><b>Your account will be created if does not exist.</b></p>
+        <div>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="mobile">
+                    <label class="mdl-textfield__label" for="mobile">Mobile Number</label>
+                    <span class="mdl-textfield__error">Input is not a number!</span>
+                </div>
             </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[a-zA-Z0-9_]*?" id="username">
-                <label class="mdl-textfield__label" for="username">Username</label>
-                <span class="mdl-textfield__error">Invalid username!</span>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[a-zA-Z0-9_]*?" id="username">
+                    <label class="mdl-textfield__label" for="username">Username</label>
+                    <span class="mdl-textfield__error">Invalid username!</span>
+                </div>
             </div>
-            <button class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="subscribe">Subscribe</button>
-        </p>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="password" id="password">
+                    <label class="mdl-textfield__label" for="password">Password</label>
+                </div>
+            </div>
+            <button class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="login">Login</button>
+        </div>
         <div id="notify-snackbar" class="mdl-js-snackbar mdl-snackbar">
             <div class="mdl-snackbar__text"></div>
             <button class="mdl-snackbar__action" type="button"></button>

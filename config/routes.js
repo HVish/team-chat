@@ -29,7 +29,8 @@
 module.exports = {
     api: {
         // all api routes
-        "GET /": "Home.index"
+        "GET /": "Home.index",
+        "GET /signup": "Home.signup"
     },
     web: {
         // all website routes
